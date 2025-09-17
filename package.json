@@ -1,0 +1,17 @@
+{
+  "name": "kymn",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@aws-sdk/client-kms": "^3.888.0",
+    "@peculiar/asn1-schema": "^2.5.0",
+    "asn1js": "^3.0.6",
+    "ethers": "^6.15.0"
+  }
+}
