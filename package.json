@@ -1,16 +1,48 @@
 {
-  "name": "kymn",
-  "module": "index.ts",
+  "name": "@kymn/core",
+  "version": "0.1.0",
+  "author": {
+    "name": "Soumya Ranjan Sahu",
+    "email": "sam@soumyaranjansahu.com",
+    "url": "https://github.com/SaM-0777/kymn"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SaM-0777/kymn"
+  },
+  "description": "Server side EVM wallet management with AWS KMS and ethers v6.15.0",
   "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "bun build.config.js",
+    "prepublishOnly": "bun run build"
+  },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "typescript": "^5"
   },
   "peerDependencies": {
-    "typescript": "^5"
+    "ethers": "^6.15.0"
   },
   "dependencies": {
     "@aws-sdk/client-kms": "^3.888.0",
-    "asn1js": "^3.0.6",
-    "ethers": "^6.15.0"
-  }
+    "asn1js": "^3.0.6"
+  },
+  "keywords": [
+    "aws",
+    "kms",
+    "ethereum",
+    "wallet",
+    "evm",
+    "ethers",
+    "server-side",
+    "typescript",
+    "node",
+    "web3"
+  ],
+  "license": "MIT"
 }

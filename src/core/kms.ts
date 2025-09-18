@@ -5,7 +5,6 @@ import {
   SignCommand,
 } from "@aws-sdk/client-kms";
 import * as asn1js from "asn1js";
-import type { TransactionRequest } from "ethers";
 import {
   Transaction,
   keccak256,
@@ -15,10 +14,8 @@ import {
   resolveAddress,
   toBeHex,
   hashMessage,
-  ethers,
+  type TransactionRequest,
 } from "ethers";
-
-export interface KYMNTransactionRequest extends TransactionRequest {}
 
 export class kymn {
   private client: KMSClient;
@@ -27,13 +24,17 @@ export class kymn {
   );
   private readonly SECP256K1_N_DIV_2 = this.SECP256K1_N / 2n;
 
-  constructor() {
+  constructor(credentials: {
+    region: string;
+    accessKey: string;
+    accessSecret: string;
+  }) {
     this.client = new KMSClient({
       credentials: {
-        accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
-        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
+        accessKeyId: credentials.accessKey,
+        secretAccessKey: credentials.accessSecret,
       },
-      region: process.env.AWS_REGION!,
+      region: credentials.region,
     });
   }
 
@@ -163,12 +164,12 @@ export class kymn {
 
   async signTransaction(
     keyId: string,
-    tx: KYMNTransactionRequest,
+    tx: TransactionRequest,
     chainId: number
   ) {
     try {
       const to = tx.to ? await resolveAddress(tx.to) : undefined;
-      const resolvedTx: KYMNTransactionRequest = {
+      const resolvedTx: TransactionRequest = {
         ...tx,
         chainId,
         type: 2, // EIP-1559
@@ -216,15 +217,5 @@ export class kymn {
       console.error("Error signing message:", error);
       throw error;
     }
-  }
-
-  provider(rpc: string) {
-    const provider = new ethers.JsonRpcProvider(rpc);
-    return provider;
-  }
-
-  interface(abi: any) {
-    const iface = new ethers.Interface(abi);
-    return iface;
   }
 }

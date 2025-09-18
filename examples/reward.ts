@@ -1,7 +1,10 @@
-import { kymn } from "../index";
+import { kymn } from "../src/index";
 import { ethers, type TransactionRequest } from 'ethers';
 import abi from "../abis/test.sol.abi.json";
 
+const ACCESS_KEY = process.env.AWS_ACCESS_KEY_ID!;
+const ACCESS_SECRET = process.env.AWS_SECRET_ACCESS_KEY!;
+const REGION = process.env.AWS_REGION!;
 
 async function rewardWinners(
   contractAddress: string,
@@ -15,7 +18,11 @@ async function rewardWinners(
   try {
     const provider = new ethers.JsonRpcProvider(rpcUrl);
 
-    const k = new kymn();
+    const k = new kymn({
+      region: REGION,
+      accessKey: ACCESS_KEY,
+      accessSecret: ACCESS_SECRET,
+    });
 
     const walletAddress = await k.deriveEVMAddress(keyId);
 
